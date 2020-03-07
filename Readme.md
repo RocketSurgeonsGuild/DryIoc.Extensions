@@ -18,9 +18,9 @@
 <!-- nuget packages -->
 | Package                                       | NuGet                                                                                          |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Rocket.Surgery.Extensions.DryIoc              | [![nuget-version-zit1pugb/q8q-badge]![nuget-downloads-zit1pugb/q8q-badge]][nuget-zit1pugb/q8q] |
-| Rocket.Surgery.Extensions.DryIoc.Abstractions | [![nuget-version-hveigi+jpfmq-badge]![nuget-downloads-hveigi+jpfmq-badge]][nuget-hveigi+jpfmq] |
-| Rocket.Surgery.Hosting.DryIoc                 | [![nuget-version-1dytjtzkv8qq-badge]![nuget-downloads-1dytjtzkv8qq-badge]][nuget-1dytjtzkv8qq] |
+| Rocket.Surgery.Extensions.DryIoc              | [![nuget-version-ycpoqnim1idq-badge]![nuget-downloads-ycpoqnim1idq-badge]][nuget-ycpoqnim1idq] |
+| Rocket.Surgery.Extensions.DryIoc.Abstractions | [![nuget-version-wj+ajqgucayq-badge]![nuget-downloads-wj+ajqgucayq-badge]][nuget-wj+ajqgucayq] |
+| Rocket.Surgery.Hosting.DryIoc                 | [![nuget-version-z3o88elxkyla-badge]![nuget-downloads-z3o88elxkyla-badge]][nuget-z3o88elxkyla] |
 <!-- nuget packages -->
 
 # Whats next?
@@ -42,15 +42,15 @@ TBD
 [appveyor-badge]: https://img.shields.io/appveyor/ci/RocketSurgeonsGuild/DryIoc-extensions.svg?color=00b3e0&label=appveyor&logo=appveyor&logoColor=00b3e0&style=flat "AppVeyor Status"
 [appveyor-history]: https://ci.appveyor.com/project/RocketSurgeonsGuild/DryIoc-extensions/history
 [appveyor-history-badge]: https://buildstats.info/appveyor/chart/RocketSurgeonsGuild/DryIoc-extensions?includeBuildsFromPullRequest=false "AppVeyor History"
-[nuget-zit1pugb/q8q]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc/
-[nuget-version-zit1pugb/q8q-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
-[nuget-downloads-zit1pugb/q8q-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
-[nuget-hveigi+jpfmq]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc.Abstractions/
-[nuget-version-hveigi+jpfmq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
-[nuget-downloads-hveigi+jpfmq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
-[nuget-1dytjtzkv8qq]: https://www.nuget.org/packages/Rocket.Surgery.Hosting.DryIoc/
-[nuget-version-1dytjtzkv8qq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
-[nuget-downloads-1dytjtzkv8qq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
+[nuget-ycpoqnim1idq]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc/
+[nuget-version-ycpoqnim1idq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
+[nuget-downloads-ycpoqnim1idq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
+[nuget-wj+ajqgucayq]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc.Abstractions/
+[nuget-version-wj+ajqgucayq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
+[nuget-downloads-wj+ajqgucayq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
+[nuget-z3o88elxkyla]: https://www.nuget.org/packages/Rocket.Surgery.Hosting.DryIoc/
+[nuget-version-z3o88elxkyla-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
+[nuget-downloads-z3o88elxkyla-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
 <!-- generated references -->
 
 <!-- nuke-data
@@ -60,8 +60,8 @@ github:
 azurepipelines:
   account: rocketsurgeonsguild
   teamproject: Libraries
-  builddefinition: 13
+  builddefinition: 0
 appveyor:
   account: RocketSurgeonsGuild
-  build: DryIoc-extensions
+  build: dryioc-extensions
 -->
