@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\DryIoc\Rocket.Surgery.Extensions.DryIoc.csproj" />
+        <ProjectReference Include="..\..\src\Hosting.DryIoc\Rocket.Surgery.Hosting.DryIoc.csproj" />
+    </ItemGroup>
+</Project>

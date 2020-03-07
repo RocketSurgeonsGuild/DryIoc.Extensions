@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
+        <PackageDescription>Provides DryIoc support for a Rocket Surgery Application</PackageDescription>
+        <PackageTags>$(PackageTags);DryIoc</PackageTags>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\DryIoc.Abstractions\Rocket.Surgery.Extensions.DryIoc.Abstractions.csproj" />
+        <PackageReference Include="DryIoc.Microsoft.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Rocket.Surgery.Conventions" />
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" />
+    </ItemGroup>
+</Project>
