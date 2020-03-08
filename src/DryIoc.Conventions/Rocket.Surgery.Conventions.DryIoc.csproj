@@ -5,11 +5,14 @@
         <PackageTags>$(PackageTags);DryIoc</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\DryIoc.Abstractions\Rocket.Surgery.Extensions.DryIoc.Abstractions.csproj" />
         <PackageReference Include="DryIoc.Microsoft.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="Rocket.Surgery.Conventions" />
         <PackageReference Include="System.Diagnostics.DiagnosticSource" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\DryIoc.Conventions.Abstractions\Rocket.Surgery.Conventions.DryIoc.Abstractions.csproj" />
+      <ProjectReference Include="..\DryIoc.Extensions\Rocket.Surgery.Extensions.DryIoc.Extensions.csproj" />
     </ItemGroup>
 </Project>

@@ -9,6 +9,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Rocket.Surgery.Conventions.Abstractions" />
-        <PackageReference Include="Rocket.Surgery.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Rocket.Surgery.Conventions.DependencyInjection.Abstractions" />
     </ItemGroup>
 </Project>
