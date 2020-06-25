@@ -1,4 +1,4 @@
-﻿namespace Rocket.Surgery.Extensions.DryIoc
+﻿namespace Rocket.Surgery.Conventions.DryIoc
 {
     /// <summary>
     /// Delegate ServiceConventionAction

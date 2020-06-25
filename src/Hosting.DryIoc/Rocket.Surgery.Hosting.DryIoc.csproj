@@ -5,7 +5,7 @@
         <PackageTags>$(PackageTags);DryIoc</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\DryIoc\Rocket.Surgery.Extensions.DryIoc.csproj" />
+        <ProjectReference Include="..\Conventions.DryIoc\Rocket.Surgery.Conventions.DryIoc.csproj" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Rocket.Surgery.Hosting" />

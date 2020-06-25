@@ -4,14 +4,13 @@ using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Rocket.Surgery.Conventions;
+using Rocket.Surgery.Conventions.DependencyInjection;
+using Rocket.Surgery.Conventions.DryIoc.Internals;
 using Rocket.Surgery.Conventions.Reflection;
-using Rocket.Surgery.Conventions.Scanners;
-using Rocket.Surgery.Extensions.DryIoc.Internals;
-using Rocket.Surgery.Extensions.DependencyInjection;
 
-namespace Rocket.Surgery.Extensions.DryIoc
+namespace Rocket.Surgery.Conventions.DryIoc
 {
     /// <summary>
     /// DryIocBuilder.
@@ -55,7 +54,7 @@ namespace Rocket.Surgery.Extensions.DryIoc
         /// services
         /// </exception>
         public DryIocBuilder(
-            IRocketEnvironment environment,
+            IHostEnvironment environment,
             IConfiguration configuration,
             IConventionScanner scanner,
             IAssemblyProvider assemblyProvider,
@@ -149,7 +148,7 @@ namespace Rocket.Surgery.Extensions.DryIoc
         /// Based on IHostEnvironment / IHostingEnvironment
         /// </summary>
         /// <value>The environment.</value>
-        public IRocketEnvironment Environment { get; }
+        public IHostEnvironment Environment { get; }
 
         /// <summary>
         /// Gets the on build.

@@ -4,9 +4,9 @@ using DryIoc.Microsoft.DependencyInjection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions;
+using Rocket.Surgery.Conventions.DryIoc;
 using Rocket.Surgery.Conventions.Reflection;
 using Rocket.Surgery.Conventions.Scanners;
-using Rocket.Surgery.Extensions.DryIoc;
 using Rocket.Surgery.Hosting;
 
 // ReSharper disable once CheckNamespace
@@ -23,22 +23,39 @@ namespace Microsoft.Extensions.Hosting
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="container">The container.</param>
-        /// <returns>IRocketHostBuilder.</returns>
-        public static IRocketHostBuilder UseDryIoc([NotNull] this IRocketHostBuilder builder, IContainer? container = null)
+        /// <returns>IHostBuilder.</returns>
+        public static IHostBuilder UseDryIoc([NotNull] this IHostBuilder builder, IContainer? container = null)
         {
             if (builder == null)
             {
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.Builder.ConfigureServices(
+            builder.GetConventions().UseDryIoc(container);
+            return builder;
+        }
+
+        /// <summary>
+        /// Uses the DryIoc.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="container">The container.</param>
+        /// <returns>IConventionHostBuilder.</returns>
+        public static IConventionHostBuilder UseDryIoc([NotNull] this IConventionHostBuilder builder, IContainer? container = null)
+        {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            builder.ConfigureHosting(hosting => hosting.Builder.ConfigureServices(
                 (context, services) =>
                 {
-                    builder.Builder.UseServiceProviderFactory(
+                    hosting.Builder.UseServiceProviderFactory(
                         new ServicesBuilderServiceProviderFactory(
                             collection =>
                                 new DryIocBuilder(
-                                    context.HostingEnvironment.Convert(),
+                                    context.HostingEnvironment,
                                     context.Configuration,
                                     builder.Get<IConventionScanner>(),
                                     builder.Get<IAssemblyProvider>(),
@@ -51,7 +68,7 @@ namespace Microsoft.Extensions.Hosting
                         )
                     );
                 }
-            );
+            ));
             return builder;
         }
     }
