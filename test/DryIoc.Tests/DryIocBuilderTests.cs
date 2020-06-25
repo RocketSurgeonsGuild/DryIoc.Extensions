@@ -12,13 +12,14 @@ using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Conventions.Reflection;
 using Rocket.Surgery.Conventions.Scanners;
 using Rocket.Surgery.Extensions.DryIoc.Tests;
-using Rocket.Surgery.Extensions.CommandLine;
-using Rocket.Surgery.Extensions.DependencyInjection;
 using Rocket.Surgery.Extensions.Testing;
 using Rocket.Surgery.Hosting;
 using Xunit;
 using Xunit.Abstractions;
 using Microsoft.Extensions.Configuration;
+using Rocket.Surgery.Conventions.CommandLine;
+using Rocket.Surgery.Conventions.DependencyInjection;
+using Rocket.Surgery.Conventions.DryIoc;
 
 #pragma warning disable CA1040, CA1034, CA2000, IDE0058, RCS1021
 
@@ -293,7 +294,7 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
             AutoFake.Provide<IContainer>(new Container());
             var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
             AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();;
+            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>(); ;
 
             A.CallTo(
                     () => AutoFake.Resolve<IAssemblyCandidateFinder>().GetCandidateAssemblies(A<IEnumerable<string>>._)
@@ -317,8 +318,8 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
             var builder = Host.CreateDefaultBuilder(Array.Empty<string>())
                .ConfigureRocketSurgery(
                     rb => rb
+                       .UseScannerUnsafe(new BasicConventionScanner(A.Fake<IServiceProviderDictionary>()))
                        .UseDryIoc()
-                       .UseScanner(new BasicConventionScanner(A.Fake<IServiceProviderDictionary>()))
                        .UseAssemblyCandidateFinder(
                             new DefaultAssemblyCandidateFinder(new[] { typeof(DryIocBuilderTests).Assembly })
                         )

@@ -1,9 +1,6 @@
-using System;
-using DryIoc;
 using JetBrains.Annotations;
-using Rocket.Surgery.Conventions;
 
-namespace Rocket.Surgery.Extensions.DryIoc
+namespace Rocket.Surgery.Conventions.DryIoc
 {
     /// <summary>
     /// IDryIocBuilder.

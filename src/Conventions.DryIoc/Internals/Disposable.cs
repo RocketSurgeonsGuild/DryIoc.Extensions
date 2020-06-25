@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rocket.Surgery.Extensions.DryIoc.Internals
+namespace Rocket.Surgery.Conventions.DryIoc.Internals
 {
     /// <summary>
     /// Disposable.

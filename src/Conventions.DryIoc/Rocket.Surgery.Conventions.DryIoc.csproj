@@ -5,7 +5,6 @@
         <PackageTags>$(PackageTags);DryIoc</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\DryIoc.Abstractions\Rocket.Surgery.Extensions.DryIoc.Abstractions.csproj" />
         <PackageReference Include="DryIoc.Microsoft.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
