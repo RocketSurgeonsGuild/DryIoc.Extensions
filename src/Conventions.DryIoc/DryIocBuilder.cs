@@ -24,13 +24,13 @@ namespace Rocket.Surgery.Conventions.DryIoc
     /// <seealso cref="IServicesBuilder" />
     /// <seealso cref="IDryIocConventionContext" />
     public class DryIocBuilder : ConventionBuilder<IDryIocBuilder, IDryIocConvention, DryIocConventionDelegate>,
-                                  IDryIocBuilder,
-                                  IServicesBuilder,
-                                  IDryIocConventionContext
+                                 IDryIocBuilder,
+                                 IServicesBuilder,
+                                 IDryIocConventionContext
     {
         private readonly GenericObservableObservable<IContainer> _containerObservable;
         private readonly GenericObservableObservable<IServiceProvider> _serviceProviderOnBuild;
-        private IContainer _container;
+        private IContainer _container => this.Get<IContainer>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DryIocBuilder" /> class.
@@ -73,7 +73,7 @@ namespace Rocket.Surgery.Conventions.DryIoc
 
             _containerObservable = new GenericObservableObservable<IContainer>(Logger);
             _serviceProviderOnBuild = new GenericObservableObservable<IServiceProvider>(Logger);
-            _container = container ?? throw new ArgumentNullException(nameof(container));
+            this.Set(container ?? throw new ArgumentNullException(nameof(container)));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Rocket.Surgery.Conventions.DryIoc
         /// <returns>IDryIocConventionContext.</returns>
         public DryIocBuilder ConfigureContainer(Func<IContainer, IContainer> configureContainer)
         {
-            _container = configureContainer?.Invoke(_container) ?? _container;
+            this.Set(configureContainer?.Invoke(_container) ?? _container);
             return this;
         }
 
@@ -119,7 +119,7 @@ namespace Rocket.Surgery.Conventions.DryIoc
             _serviceProviderOnBuild.Send(_container);
             _containerObservable.Send(_container);
 
-            _container = options.NoMoreRegistrationAllowed ? _container.WithNoMoreRegistrationAllowed() : _container;
+            this.Set(options.NoMoreRegistrationAllowed ? _container.WithNoMoreRegistrationAllowed() : _container);
 
             return _container;
         }
@@ -164,7 +164,8 @@ namespace Rocket.Surgery.Conventions.DryIoc
         /// <inheritdoc />
         public ILogger Logger { get; }
 
-        IDryIocConventionContext IDryIocConventionContext.ConfigureContainer(Func<IContainer, IContainer> configureContainer) => ConfigureContainer(configureContainer);
+        IDryIocConventionContext IDryIocConventionContext.ConfigureContainer(Func<IContainer, IContainer> configureContainer)
+            => ConfigureContainer(configureContainer);
 
         IDryIocConventionContext IDryIocConventionContext.ConfigureContainer(Action<IContainer> configureContainer) => ConfigureContainer(configureContainer);
 

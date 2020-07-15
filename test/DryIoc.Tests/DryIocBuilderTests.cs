@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using DryIoc;
 using FakeItEasy;
+using FakeItEasy.Creation;
 using FluentAssertions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Rocket.Surgery.Conventions.CommandLine;
 using Rocket.Surgery.Conventions.DependencyInjection;
 using Rocket.Surgery.Conventions.DryIoc;
+using Serilog;
 
 #pragma warning disable CA1040, CA1034, CA2000, IDE0058, RCS1021
 
@@ -294,7 +296,8 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
             AutoFake.Provide<IContainer>(new Container());
             var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
             AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>(); ;
+            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            ;
 
             A.CallTo(
                     () => AutoFake.Resolve<IAssemblyCandidateFinder>().GetCandidateAssemblies(A<IEnumerable<string>>._)
@@ -338,7 +341,10 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         }
 
         public DryIocBuilderTests(ITestOutputHelper outputHelper) : base(outputHelper)
-            => AutoFake.Provide<DiagnosticSource>(new DiagnosticListener("Test"));
+        {
+            AutoFake.Provide<DiagnosticSource>(new DiagnosticListener("Test"));
+            AutoFake.Provide<IDictionary<object, object?>>(new ServiceProviderDictionary());
+        }
 
         public interface IAbc { }
 
