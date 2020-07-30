@@ -8,8 +8,5 @@ namespace Rocket.Surgery.Conventions.DryIoc
     /// </summary>
     /// <seealso cref="IConventionBuilder{IDryIocBuilder, IDryIocConvention, DryIocConventionDelegate}" />
     [PublicAPI]
-    public interface
-        IDryIocBuilder : IConventionBuilder<IDryIocBuilder, IDryIocConvention, DryIocConventionDelegate>
-    {
-    }
+    public interface IDryIocBuilder : IConventionBuilder<IDryIocBuilder, IDryIocConvention, DryIocConventionDelegate> { }
 }

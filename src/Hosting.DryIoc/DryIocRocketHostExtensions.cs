@@ -22,16 +22,16 @@ namespace Microsoft.Extensions.Hosting
         /// Uses the DryIoc.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="container">The container.</param>
+        /// <param name="@delegate">The container.</param>
         /// <returns>IHostBuilder.</returns>
-        public static IHostBuilder UseDryIoc([NotNull] this IHostBuilder builder, IContainer? container = null)
+        public static IConventionHostBuilder ConfigureDryIoc([NotNull] this IConventionHostBuilder builder, DryIocConventionDelegate @delegate)
         {
             if (builder == null)
             {
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.GetConventions().UseDryIoc(container);
+            builder.AppendDelegate(@delegate);
             return builder;
         }
 
@@ -48,10 +48,9 @@ namespace Microsoft.Extensions.Hosting
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.ConfigureHosting(hosting => hosting.Builder.ConfigureServices(
-                (context, services) =>
-                {
-                    hosting.Builder.UseServiceProviderFactory(
+            return builder.ConfigureHosting(
+                hosting => hosting.Builder.UseServiceProviderFactory(
+                    context =>
                         new ServicesBuilderServiceProviderFactory(
                             collection =>
                                 new DryIocBuilder(
@@ -66,10 +65,8 @@ namespace Microsoft.Extensions.Hosting
                                     builder.ServiceProperties
                                 )
                         )
-                    );
-                }
-            ));
-            return builder;
+                )
+            );
         }
     }
 }
