@@ -18,9 +18,8 @@
 <!-- nuget packages -->
 | Package | NuGet |
 | ------- | ----- |
-| Rocket.Surgery.Extensions.DryIoc | [![nuget-version-ycpoqnim1idq-badge]![nuget-downloads-ycpoqnim1idq-badge]][nuget-ycpoqnim1idq] |
-| Rocket.Surgery.Extensions.DryIoc.Abstractions | [![nuget-version-wj+ajqgucayq-badge]![nuget-downloads-wj+ajqgucayq-badge]][nuget-wj+ajqgucayq] |
 | Rocket.Surgery.Hosting.DryIoc | [![nuget-version-z3o88elxkyla-badge]![nuget-downloads-z3o88elxkyla-badge]][nuget-z3o88elxkyla] |
+| Rocket.Surgery.Conventions.DryIoc | [![nuget-version-ej1qdci5w77w-badge]![nuget-downloads-ej1qdci5w77w-badge]][nuget-ej1qdci5w77w] |
 <!-- nuget packages -->
 
 # Whats next?
@@ -41,15 +40,12 @@ TBD
 [github]: https://github.com/RocketSurgeonsGuild/DryIoc.Extensions/actions?query=workflow%3Aci
 [github-badge]: https://img.shields.io/github/workflow/status/RocketSurgeonsGuild/DryIoc.Extensions/ci.svg?label=github&logo=github&color=b845fc&logoColor=b845fc&style=flat "GitHub Actions Status"
 [github-history-badge]: https://buildstats.info/github/chart/RocketSurgeonsGuild/DryIoc.Extensions?includeBuildsFromPullRequest=false "GitHub Actions History"
-[nuget-ycpoqnim1idq]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc/
-[nuget-version-ycpoqnim1idq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
-[nuget-downloads-ycpoqnim1idq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
-[nuget-wj+ajqgucayq]: https://www.nuget.org/packages/Rocket.Surgery.Extensions.DryIoc.Abstractions/
-[nuget-version-wj+ajqgucayq-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
-[nuget-downloads-wj+ajqgucayq-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Extensions.DryIoc.Abstractions.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
 [nuget-z3o88elxkyla]: https://www.nuget.org/packages/Rocket.Surgery.Hosting.DryIoc/
 [nuget-version-z3o88elxkyla-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
 [nuget-downloads-z3o88elxkyla-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Hosting.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
+[nuget-ej1qdci5w77w]: https://www.nuget.org/packages/Rocket.Surgery.Conventions.DryIoc/
+[nuget-version-ej1qdci5w77w-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Conventions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
+[nuget-downloads-ej1qdci5w77w-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Conventions.DryIoc.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
 <!-- generated references -->
 
 <!-- nuke-data
