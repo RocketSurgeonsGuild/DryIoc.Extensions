@@ -9,11 +9,16 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageTags>dryioc;rocket surgery;rocket surgeons;rsg;rocket surgeons guild</PackageTags>
         <PackageTags Condition="$(MSBuildProjectName.Contains('Abstractions'))">$(PackageTags);abstractions</PackageTags>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>preview</LangVersion>
+        <Features>strict</Features>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)/.tmp/packageicon.png" Condition="Exists('$(MSBuildThisFileDirectory)/.tmp/packageicon.png')" Pack="true" PackagePath="/images/" Visible="false" />
         <None Include="$(MSBuildThisFileDirectory)/LICENSE" Pack="true" PackagePath="/" Visible="false" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectCapability Include="DynamicDependentFile" />
+        <ProjectCapability Include="DynamicFileNesting" />
     </ItemGroup>
 </Project>
