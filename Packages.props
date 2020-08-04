@@ -28,7 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="DryIoc.dll" Version="4.2.5" />
-    <PackageReference Update="DryIoc.Microsoft.DependencyInjection" Version="4.0.0" />
+    <PackageReference Update="DryIoc.Microsoft.DependencyInjection" Version="4.1.0" />
     <PackageReference Update="Rocket.Surgery.Conventions" Version="10.0.0-beta.13" />
     <PackageReference Update="Rocket.Surgery.Conventions.Abstractions" Version="10.0.0-beta.13" />
     <PackageReference Update="Rocket.Surgery.Conventions.TestHost" Version="10.0.0-beta.13" />
