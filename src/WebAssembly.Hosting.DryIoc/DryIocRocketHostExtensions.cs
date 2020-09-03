@@ -6,17 +6,16 @@ using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Conventions.DryIoc;
 using Rocket.Surgery.Conventions.Reflection;
-using Rocket.Surgery.Conventions.Scanners;
-using Rocket.Surgery.Hosting;
+using Rocket.Surgery.WebAssembly.Hosting;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.Hosting
+namespace Microsoft.AspNetCore.Components.WebAssembly.Hosting
 {
     /// <summary>
     /// Class DryIocRocketHostExtensions.
     /// </summary>
     [PublicAPI]
-    public static class DryIocRocketHostExtensions
+    public static class WebAssemblyDryIocRocketHostExtensions
     {
         /// <summary>
         /// Uses the DryIoc.
@@ -48,25 +47,24 @@ namespace Microsoft.Extensions.Hosting
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            return builder.ConfigureHosting(
-                hosting => hosting.Builder.UseServiceProviderFactory(
-                    context =>
-                        new ServicesBuilderProviderFactory(
-                            hosting.Builder,
-                            (builder, collection) =>
-                                new DryIocBuilder(
-                                    context.Configuration,
-                                    builder.Get<IConventionScanner>()!,
-                                    builder.Get<IAssemblyProvider>()!,
-                                    builder.Get<IAssemblyCandidateFinder>()!,
-                                    collection,
-                                    container ?? new Container().WithDependencyInjectionAdapter(),
-                                    builder.Get<ILogger>()!,
-                                    builder.ServiceProperties
-                                )
+            var wasmBuilder = builder.Get<IWebAssemblyHostBuilder>()!;
+            wasmBuilder.ConfigureContainer(
+                new WebAssemblyServicesBuilderProviderFactory(
+                    wasmBuilder,
+                    (b, collection) =>
+                        new DryIocBuilder(
+                            wasmBuilder.Configuration,
+                            b.Get<IConventionScanner>()!,
+                            b.Get<IAssemblyProvider>()!,
+                            b.Get<IAssemblyCandidateFinder>()!,
+                            collection,
+                            container ?? new Container().WithDependencyInjectionAdapter(),
+                            b.Get<ILogger>()!,
+                            b.ServiceProperties
                         )
                 )
             );
+            return builder;
         }
     }
 }

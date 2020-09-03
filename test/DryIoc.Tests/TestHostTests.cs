@@ -20,7 +20,7 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
             var host = TestHost.For(typeof(TestHostTests))
                .Create(
                     c => c
-                       .ConfigureRocketSurgery(x => ConventionHostBuilderExtensions.Set((IConventionHostBuilder)x, new DryIocOptions() { NoMoreRegistrationAllowed = false}).UseDryIoc().AppendConvention<TestConvention>())
+                       .ConfigureRocketSurgery(x => x.Set(new DryIocOptions() { NoMoreRegistrationAllowed = false}).UseDryIoc().AppendConvention<TestConvention>())
                 );
             var services = host.Build().Services.GetRequiredService<IContainer>();
 

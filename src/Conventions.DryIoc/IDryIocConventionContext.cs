@@ -3,7 +3,6 @@ using DryIoc;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions.Reflection;
 
 namespace Rocket.Surgery.Conventions.DryIoc
@@ -45,13 +44,6 @@ namespace Rocket.Surgery.Conventions.DryIoc
         /// </summary>
         /// <value>The on container build.</value>
         [NotNull] IObservable<IContainer> OnContainerBuild { get; }
-
-        /// <summary>
-        /// The environment that this convention is running
-        /// Based on IHostEnvironment / IHostingEnvironment
-        /// </summary>
-        /// <value>The environment.</value>
-        [NotNull] IHostEnvironment Environment { get; }
 
         /// <summary>
         /// Configures the container.

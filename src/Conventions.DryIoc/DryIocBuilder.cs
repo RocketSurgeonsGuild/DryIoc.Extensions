@@ -4,7 +4,6 @@ using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions.DependencyInjection;
 using Rocket.Surgery.Conventions.DryIoc.Internals;
@@ -30,12 +29,11 @@ namespace Rocket.Surgery.Conventions.DryIoc
     {
         private readonly GenericObservableObservable<IContainer> _containerObservable;
         private readonly GenericObservableObservable<IServiceProvider> _serviceProviderOnBuild;
-        private IContainer _container => this.Get<IContainer>();
+        private IContainer _container => this.Get<IContainer>()!;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DryIocBuilder" /> class.
         /// </summary>
-        /// <param name="environment">The environment.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="scanner">The scanner.</param>
         /// <param name="assemblyProvider">The assembly provider.</param>
@@ -54,7 +52,6 @@ namespace Rocket.Surgery.Conventions.DryIoc
         /// services
         /// </exception>
         public DryIocBuilder(
-            IHostEnvironment environment,
             IConfiguration configuration,
             IConventionScanner scanner,
             IAssemblyProvider assemblyProvider,
@@ -66,7 +63,6 @@ namespace Rocket.Surgery.Conventions.DryIoc
         )
             : base(scanner, assemblyProvider, assemblyCandidateFinder, properties)
         {
-            Environment = environment ?? throw new ArgumentNullException(nameof(environment));
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
             Logger = diagnosticSource ?? throw new ArgumentNullException(nameof(diagnosticSource));
@@ -142,13 +138,6 @@ namespace Rocket.Surgery.Conventions.DryIoc
         /// </summary>
         /// <value>The services.</value>
         public IServiceCollection Services { get; }
-
-        /// <summary>
-        /// The environment that this convention is running
-        /// Based on IHostEnvironment / IHostingEnvironment
-        /// </summary>
-        /// <value>The environment.</value>
-        public IHostEnvironment Environment { get; }
 
         /// <summary>
         /// Gets the on build.
