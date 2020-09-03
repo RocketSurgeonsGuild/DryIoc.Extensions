@@ -17,11 +17,9 @@ using Rocket.Surgery.Extensions.Testing;
 using Rocket.Surgery.Hosting;
 using Xunit;
 using Xunit.Abstractions;
-using Microsoft.Extensions.Configuration;
 using Rocket.Surgery.Conventions.CommandLine;
 using Rocket.Surgery.Conventions.DependencyInjection;
 using Rocket.Surgery.Conventions.DryIoc;
-using Serilog;
 
 #pragma warning disable CA1040, CA1034, CA2000, IDE0058, RCS1021
 
@@ -45,7 +43,6 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
             servicesBuilder.AssemblyCandidateFinder.Should().NotBeNull();
             servicesBuilder.Services.Should().BeSameAs(services);
             servicesBuilder.Configuration.Should().NotBeNull();
-            servicesBuilder.Environment.Should().NotBeNull();
 
             Action a = () => { servicesBuilder.PrependConvention(A.Fake<IDryIocConvention>()); };
             a.Should().NotThrow();
@@ -342,7 +339,6 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
 
         public DryIocBuilderTests(ITestOutputHelper outputHelper) : base(outputHelper)
         {
-            AutoFake.Provide<DiagnosticSource>(new DiagnosticListener("Test"));
             AutoFake.Provide<IDictionary<object, object?>>(new ServiceProviderDictionary());
         }
 
