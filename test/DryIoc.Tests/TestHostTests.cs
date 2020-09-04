@@ -1,5 +1,6 @@
 using DryIoc;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions;
@@ -17,11 +18,8 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void IntegratesWithTestHost()
         {
-            var host = TestHost.For(typeof(TestHostTests))
-               .Create(
-                    c => c
-                       .ConfigureRocketSurgery(x => x.Set(new DryIocOptions() { NoMoreRegistrationAllowed = false}).UseDryIoc().AppendConvention<TestConvention>())
-                );
+            var host = TestHost.For(typeof(TestHostTests)).Create()
+               .Configure(c => c.ConfigureRocketSurgery(x => x.Set(new DryIocOptions() { NoMoreRegistrationAllowed = false }).UseDryIoc().AppendConvention<TestConvention>()));
             var services = host.Build().Services.GetRequiredService<IContainer>();
 
             // We are using dryioc...
@@ -34,13 +32,12 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
 
         class TestConvention : IServiceConvention, IDryIocConvention
         {
-            public TestConvention() { }
+            public void Register(IConventionContext context, IConfiguration configuration, IServiceCollection services) { }
 
-            public void Register(IServiceConventionContext context) { }
-
-            public void Register(IDryIocConventionContext context)
+            public IContainer Register(IConventionContext conventionContext, IConfiguration configuration, IServiceCollection services, IContainer container)
             {
-                context.ConfigureContainer(c => c.UseInstance(new AService()));
+                container.UseInstance(new AService());
+                return container;
             }
         }
 

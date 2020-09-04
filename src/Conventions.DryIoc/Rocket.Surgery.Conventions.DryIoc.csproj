@@ -6,9 +6,9 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="DryIoc.Microsoft.DependencyInjection" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-        <PackageReference Include="Rocket.Surgery.Conventions" />
-        <PackageReference Include="System.Diagnostics.DiagnosticSource" />
+        <PackageReference Include="Rocket.Surgery.Conventions.Abstractions" />
+        <InternalsVisibleTo Include="Rocket.Surgery.Hosting.DryIoc" />
+        <InternalsVisibleTo Include="Rocket.Surgery.WebAssembly.Hosting.DryIoc" />
+        <InternalsVisibleTo Include="Rocket.Surgery.Extensions.DryIoc.Tests" />
     </ItemGroup>
 </Project>

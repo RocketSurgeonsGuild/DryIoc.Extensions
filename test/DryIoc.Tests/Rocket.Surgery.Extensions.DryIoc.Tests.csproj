@@ -3,6 +3,7 @@
         <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Rocket.Surgery.Conventions" />
         <PackageReference Include="Rocket.Surgery.Hosting.TestHost" />
         <ProjectReference Include="..\..\src\Conventions.DryIoc\Rocket.Surgery.Conventions.DryIoc.csproj" />
         <ProjectReference Include="..\..\src\Hosting.DryIoc\Rocket.Surgery.Hosting.DryIoc.csproj" />
