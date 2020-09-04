@@ -17,23 +17,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Hosting
         /// Uses the DryIoc.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="delegate">The container.</param>
-        /// <returns>IHostBuilder.</returns>
-        public static ConventionContextBuilder ConfigureDryIoc([NotNull] this ConventionContextBuilder builder, DryIocConvention @delegate)
-        {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            builder.AppendDelegate(@delegate);
-            return builder;
-        }
-
-        /// <summary>
-        /// Uses the DryIoc.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
         /// <param name="container">The container.</param>
         /// <returns>ConventionContextBuilder.</returns>
         public static ConventionContextBuilder UseDryIoc([NotNull] this ConventionContextBuilder builder, IContainer? container = null)
