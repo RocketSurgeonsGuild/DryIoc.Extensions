@@ -1,8 +1,15 @@
-﻿namespace Rocket.Surgery.Conventions.DryIoc
+﻿using DryIoc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Rocket.Surgery.Conventions.DryIoc
 {
     /// <summary>
     /// Delegate ServiceConventionAction
     /// </summary>
-    /// <param name="context">The context.</param>
-    public delegate void DryIocConventionDelegate(IDryIocConventionContext context);
+    /// <param name="conventionContext"></param>
+    /// <param name="configuration"></param>
+    /// <param name="services"></param>
+    /// <param name="container"></param>
+    public delegate IContainer DryIocConvention(IConventionContext conventionContext, IConfiguration configuration, IServiceCollection services, IContainer container);
 }
