@@ -10,8 +10,8 @@ using System.Linq;
 
 #pragma warning disable CA1040, CA1034, CA2000, IDE0058, RCS1021
 
-[assembly: Convention(typeof(DryIocBuilderTests.AbcConvention))]
-[assembly: Convention(typeof(DryIocBuilderTests.OtherConvention))]
+// [assembly: Convention(typeof(DryIocBuilderTests.AbcConvention))]
+// [assembly: Convention(typeof(DryIocBuilderTests.OtherConvention))]
 
 namespace Rocket.Surgery.Extensions.DryIoc.Tests
 {

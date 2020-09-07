@@ -24,11 +24,11 @@ namespace Rocket.Surgery.Conventions.DryIoc
             var configuration = _conventionContext.Get<IConfiguration>() ?? throw new ArgumentException("Configuration was not found in context");
             foreach (var item in _conventionContext.Conventions.Get<IDryIocConvention, DryIocConvention>())
             {
-                if (item.Convention is IDryIocConvention convention)
+                if (item is IDryIocConvention convention)
                 {
                     container = convention.Register(_conventionContext, configuration, services, container);
                 }
-                else if (item.Delegate is DryIocConvention @delegate)
+                else if (item is DryIocConvention @delegate)
                 {
                     container = @delegate(_conventionContext, configuration, services, container);
                 }
