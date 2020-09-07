@@ -7,6 +7,7 @@ using FakeItEasy;
 using FakeItEasy.Creation;
 using FluentAssertions;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rocket.Surgery.Conventions;
@@ -31,86 +32,23 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
     public class DryIocBuilderTests : AutoFakeTest
     {
         [Fact]
-        public void Constructs()
-        {
-            var services = AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            servicesBuilder.AssemblyProvider.Should().BeSameAs(assemblyProvider);
-            servicesBuilder.AssemblyCandidateFinder.Should().NotBeNull();
-            servicesBuilder.Services.Should().BeSameAs(services);
-            servicesBuilder.Configuration.Should().NotBeNull();
-
-            Action a = () => { servicesBuilder.PrependConvention(A.Fake<IDryIocConvention>()); };
-            a.Should().NotThrow();
-            a = () => { servicesBuilder.PrependDelegate(delegate { }); };
-            a.Should().NotThrow();
-            a = () => { servicesBuilder.ConfigureContainer(_ => { }); };
-            a.Should().NotThrow();
-            a = () => { servicesBuilder.ConfigureContainer(_ => _); };
-            a.Should().NotThrow();
-        }
-
-        [Fact]
-        public void StoresAndReturnsItems()
-        {
-            AutoFake.Provide<IDictionary<object, object>>(new Dictionary<object, object>());
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            var value = new object();
-            servicesBuilder[string.Empty] = value;
-            servicesBuilder[string.Empty].Should().BeSameAs(value);
-        }
-
-        [Fact]
-        public void IgnoreNonExistentItems()
-        {
-            AutoFake.Provide<IDictionary<object, object>>(new Dictionary<object, object>());
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            servicesBuilder[string.Empty].Should().BeNull();
-        }
-
-        [Fact]
-        public void AddConventions()
-        {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            var convention = A.Fake<IDryIocConvention>();
-
-            servicesBuilder.PrependConvention(convention);
-
-            A.CallTo(() => AutoFake.Resolve<IConventionScanner>().PrependConvention(A<IEnumerable<IConvention>>._))
-               .MustHaveHappened();
-        }
-
-        [Fact]
         public void ConstructTheContainerAndRegisterWithCore()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.RegisterInstance(A.Fake<IAbc>());
+                                services.AddSingleton(A.Fake<IAbc2>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc>()));
-            servicesBuilder.Services.AddSingleton(A.Fake<IAbc2>());
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             items.Resolve<IAbc>(IfUnresolved.ReturnDefault).Should().NotBeNull();
             items.Resolve<IAbc2>(IfUnresolved.ReturnDefault).Should().NotBeNull();
             items.Resolve<IAbc3>(IfUnresolved.ReturnDefault).Should().BeNull();
@@ -120,21 +58,22 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithApplication()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.RegisterInstance(A.Fake<IAbc>());
+                                services.AddSingleton(A.Fake<IAbc2>());
+                                container.RegisterInstance(A.Fake<IAbc4>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(
-                c => c.RegisterInstance(A.Fake<IAbc>())
-            );
-            servicesBuilder.Services.AddSingleton(A.Fake<IAbc2>());
-            servicesBuilder.ConfigureContainer(
-                c => c.RegisterInstance(A.Fake<IAbc4>())
-            );
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             items.Resolve<IAbc>(IfUnresolved.ReturnDefault).Should().NotBeNull();
             items.Resolve<IAbc2>(IfUnresolved.ReturnDefault).Should().NotBeNull();
             items.Resolve<IAbc3>(IfUnresolved.ReturnDefault).Should().BeNull();
@@ -144,16 +83,21 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithSystem()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.RegisterInstance(A.Fake<IAbc3>());
+                                container.RegisterInstance(A.Fake<IAbc4>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc3>()));
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc4>()));
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             items.Resolve<IAbc>(IfUnresolved.ReturnDefault).Should().BeNull();
             items.Resolve<IAbc2>(IfUnresolved.ReturnDefault).Should().BeNull();
             items.Resolve<IAbc3>(IfUnresolved.ReturnDefault).Should().NotBeNull();
@@ -163,16 +107,21 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithCore_ServiceProvider()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.RegisterInstance(A.Fake<IAbc>());
+                                services.AddSingleton(A.Fake<IAbc2>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc>()));
-            servicesBuilder.Services.AddSingleton(A.Fake<IAbc2>());
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
 
             var sp = items.Resolve<IServiceProvider>();
             sp.GetService<IAbc>().Should().NotBeNull();
@@ -184,17 +133,22 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithApplication_ServiceProvider()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.UseInstance(A.Fake<IAbc>());
+                                services.AddSingleton(A.Fake<IAbc2>());
+                                container.UseInstance(A.Fake<IAbc4>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(c => c.UseInstance(A.Fake<IAbc>()));
-            servicesBuilder.Services.AddSingleton(A.Fake<IAbc2>());
-            servicesBuilder.ConfigureContainer(c => c.UseInstance(A.Fake<IAbc4>()));
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             var sp = items.Resolve<IServiceProvider>();
             sp.GetService<IAbc>().Should().NotBeNull();
             sp.GetService<IAbc2>().Should().NotBeNull();
@@ -205,16 +159,21 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithSystem_ServiceProvider()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .DisableConventionAttributes()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                container.RegisterInstance(A.Fake<IAbc3>());
+                                container.RegisterInstance(A.Fake<IAbc4>());
+                                return container;
+                            })
+                );
 
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc3>()));
-            servicesBuilder.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc4>()));
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             var sp = items.Resolve<IServiceProvider>();
             sp.GetService<IAbc>().Should().BeNull();
             sp.GetService<IAbc2>().Should().BeNull();
@@ -225,17 +184,18 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithSystem_UsingConvention()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IServiceProvider>(new ServiceProviderDictionary());
-            A.CallTo(() => AutoFake.Provide(A.Fake<IAssemblyCandidateFinder>()).GetCandidateAssemblies(A<IEnumerable<string>>._))
-               .Returns(assemblyProvider.GetAssemblies());
-            AutoFake.Provide<IConventionScanner, AggregateConventionScanner>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                return container;
+                            })
+                );
 
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             items.Resolve<IAbc>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().NotBeNull();
             items.Resolve<IAbc2>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().NotBeNull();
             items.Resolve<IAbc3>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().BeNull();
@@ -245,17 +205,18 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         [Fact]
         public void ConstructTheContainerAndRegisterWithSystem_UsingConvention_IncludingOtherBits()
         {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IServiceProvider>(new ServiceProviderDictionary());
-            A.CallTo(() => AutoFake.Provide(A.Fake<IAssemblyCandidateFinder>()).GetCandidateAssemblies(A<IEnumerable<string>>._))
-               .Returns(assemblyProvider.GetAssemblies());
-            AutoFake.Provide<IConventionScanner, AggregateConventionScanner>();
+            var builder = Host.CreateDefaultBuilder()
+               .ConfigureRocketSurgery(
+                    rb => rb
+                       .UseDryIoc()
+                       .ConfigureDryIoc(
+                            (conventionContext, configuration, services, container) =>
+                            {
+                                return container;
+                            })
+                );
 
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            var items = servicesBuilder.Build();
+            var items = builder.Build().Services.GetRequiredService<IResolverContext>();
             items.Resolve<IAbc>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().NotBeNull();
             items.Resolve<IAbc2>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().NotBeNull();
             items.Resolve<IAbc3>(IfUnresolved.ReturnDefaultIfNotRegistered).Should().BeNull();
@@ -265,70 +226,10 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         }
 
         [Fact]
-        public void SendsNotificationThrough_OnBuild_Observable_ForMicrosoftExtensions()
-        {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-
-            A.CallTo(
-                    () => AutoFake.Resolve<IAssemblyCandidateFinder>().GetCandidateAssemblies(A<IEnumerable<string>>._)
-                )
-               .Returns(assemblyProvider.GetAssemblies());
-
-            var observer = A.Fake<IObserver<IServiceProvider>>();
-            ( (IServiceConventionContext)servicesBuilder ).OnBuild.Subscribe(observer);
-
-            var items = servicesBuilder.Build();
-
-            A.CallTo(() => observer.OnNext(A<IServiceProvider>.Ignored)).MustHaveHappenedOnceExactly();
-        }
-
-        [Fact]
-        public void SendsNotificationThrough_OnBuild_Observable_ForDryIoc()
-        {
-            AutoFake.Provide<IServiceCollection>(new ServiceCollection());
-            AutoFake.Provide<IContainer>(new Container());
-            var assemblyProvider = AutoFake.Provide<IAssemblyProvider>(new TestAssemblyProvider());
-            AutoFake.Provide<IConventionScanner, BasicConventionScanner>();
-            var servicesBuilder = AutoFake.Resolve<DryIocBuilder>();
-            ;
-
-            A.CallTo(
-                    () => AutoFake.Resolve<IAssemblyCandidateFinder>().GetCandidateAssemblies(A<IEnumerable<string>>._)
-                )
-               .Returns(assemblyProvider.GetAssemblies());
-
-            var observer = A.Fake<IObserver<IServiceProvider>>();
-            var observerContainer = A.Fake<IObserver<IContainer>>();
-            servicesBuilder.OnContainerBuild.Subscribe(observerContainer);
-            servicesBuilder.OnBuild.Subscribe(observer);
-
-            var container = servicesBuilder.Build();
-
-            A.CallTo(() => observer.OnNext(A<IServiceProvider>._)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => observerContainer.OnNext(A<IContainer>._)).MustHaveHappenedOnceExactly();
-        }
-
-        [Fact]
         public async Task Should_Integrate_With_DryIoc()
         {
             var builder = Host.CreateDefaultBuilder(Array.Empty<string>())
-               .ConfigureRocketSurgery(
-                    rb => rb
-                       .UseScannerUnsafe(new BasicConventionScanner(A.Fake<IServiceProviderDictionary>()))
-                       .UseDryIoc()
-                       .UseAssemblyCandidateFinder(
-                            new DefaultAssemblyCandidateFinder(new[] { typeof(DryIocBuilderTests).Assembly })
-                        )
-                       .UseAssemblyProvider(new DefaultAssemblyProvider(new[] { typeof(DryIocBuilderTests).Assembly }))
-                       .AppendDelegate(
-                            new CommandLineConventionDelegate(c => c.OnRun(state => 1337)),
-                            new CommandLineConventionDelegate(c => c.OnRun(state => 1337))
-                        )
-                );
+               .ConfigureRocketSurgery(rb => rb.UseDryIoc());
 
             using var host = builder.Build();
             await host.StartAsync().ConfigureAwait(false);
@@ -356,29 +257,19 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
 
         public class AbcConvention : IDryIocConvention
         {
-            public void Register([NotNull] IDryIocConventionContext context)
+            public IContainer Register(IConventionContext conventionContext, IConfiguration configuration, IServiceCollection services, IContainer container)
             {
-                if (context == null)
-                {
-                    throw new ArgumentNullException(nameof(context));
-                }
-
-                context.ConfigureContainer(c => c.RegisterInstance(A.Fake<IAbc>()));
-                context.Services.AddSingleton(A.Fake<IAbc2>());
-                context.ConfigureContainer(c => { });
+                container.RegisterInstance(A.Fake<IAbc>());
+                services.AddSingleton(A.Fake<IAbc2>());
+                return container;
             }
         }
 
         public class OtherConvention : IServiceConvention
         {
-            public void Register([NotNull] IServiceConventionContext context)
+            public void Register(IConventionContext context, IConfiguration configuration, IServiceCollection services)
             {
-                if (context == null)
-                {
-                    throw new ArgumentNullException(nameof(context));
-                }
-
-                context.Services.AddSingleton(A.Fake<IOtherAbc3>());
+                services.AddSingleton(A.Fake<IOtherAbc3>());
             }
         }
     }

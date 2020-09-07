@@ -29,15 +29,7 @@ namespace Rocket.Surgery.Extensions.DryIoc.Tests
         public async Task Should_Integrate_With_DryIoc()
         {
             var builder = LocalWebAssemblyHostBuilder.CreateDefault()
-               .ConfigureRocketSurgery(
-                    rb => rb
-                       .UseScannerUnsafe(new BasicConventionScanner(A.Fake<IServiceProviderDictionary>()))
-                       .UseDryIoc()
-                       .UseAssemblyCandidateFinder(
-                            new DefaultAssemblyCandidateFinder(new[] { typeof(DryIocBuilderTests).Assembly })
-                        )
-                       .UseAssemblyProvider(new DefaultAssemblyProvider(new[] { typeof(DryIocBuilderTests).Assembly }))
-                );
+               .ConfigureRocketSurgery(rb => rb.UseAssemblies(new[] { typeof(WebAssemblyDryIocBuilderTests).Assembly }).UseDryIoc());
 
             var was = builder.Build();
             was.Services.GetRequiredService<IContainer>().Should().NotBeNull();
