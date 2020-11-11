@@ -2,5 +2,22 @@
   "coverage-gutters.customizable.status-bar-toggler-watchCoverageAndVisibleEditors-enabled": true,
   "coverage-gutters.coverageFileNames": ["coverage/coverage.info"],
   "coverage-gutters.showGutterCoverage": true,
-  "coverage-gutters.showRulerCoverage": true
+  "coverage-gutters.showRulerCoverage": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#007a99",
+    "activityBar.activeBorder": "#800066",
+    "activityBar.background": "#007a99",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#800066",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.background": "#007a99",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#00a3cc",
+    "tab.activeBorder": "#007a99",
+    "titleBar.activeBackground": "#00a3cc",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#00a3cc99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  }
 }
