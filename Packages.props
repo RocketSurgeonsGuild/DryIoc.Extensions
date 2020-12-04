@@ -14,7 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="GitVersion.Tool" Version="5.5.1" />
-    <PackageReference Update="JetBrains.ReSharper.CommandLineTools" Version="2020.2.4" />
+    <PackageReference Update="JetBrains.ReSharper.GlobalTools" Version="2020.2.4" />
     <PackageReference Update="Nuke.Common" Version="5.0.0" />
     <PackageReference Update="ReportGenerator" Version="4.8.1" />
     <PackageReference Update="Rocket.Surgery.Nuke" Version="0.14.2" />
@@ -27,7 +27,7 @@
     <PackageReference Update="System.Diagnostics.DiagnosticSource" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.5.1" />
+    <PackageReference Update="DryIoc.dll" Version="4.5.2" />
     <PackageReference Update="DryIoc.Microsoft.DependencyInjection" Version="5.0.0" />
     <PackageReference Update="Rocket.Surgery.Conventions" Version="10.0.0-beta.98" />
     <PackageReference Update="Rocket.Surgery.Conventions.Abstractions" Version="10.0.0-beta.98" />
@@ -43,7 +43,7 @@
     <PackageReference Update="FakeItEasy.Analyzer.CSharp" Version="6.0.0" />
     <PackageReference Update="FluentAssertions" Version="5.10.3" />
     <PackageReference Update="FluentAssertions.Analyzers" Version="0.11.4" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Update="Rocket.Surgery.Extensions.Testing.FakeItEasy" Version="6.0.0" />
     <PackageReference Update="Rocket.Surgery.Extensions.Testing.XUnit" Version="6.0.0" />
     <PackageReference Update="xunit" Version="2.4.1" />
