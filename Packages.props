@@ -32,7 +32,7 @@
     <PackageReference Update="Rocket.Surgery.Conventions.Abstractions" Version="10.1.1" />
     <PackageReference Update="Rocket.Surgery.Hosting.TestHost" Version="10.1.1" />
     <PackageReference Update="Rocket.Surgery.Hosting" Version="10.1.0" />
-    <PackageReference Update="Rocket.Surgery.WebAssembly.Hosting" Version="10.1.0" />
+    <PackageReference Update="Rocket.Surgery.WebAssembly.Hosting" Version="10.1.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Bogus" Version="33.0.2" />
