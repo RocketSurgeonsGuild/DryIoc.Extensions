@@ -26,7 +26,7 @@
     <PackageReference Update="System.Diagnostics.DiagnosticSource" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.7.5" />
+    <PackageReference Update="DryIoc.dll" Version="4.7.6" />
     <PackageReference Update="DryIoc.Microsoft.DependencyInjection" Version="5.1.0" />
     <PackageReference Update="Rocket.Surgery.Conventions" Version="10.2.0" />
     <PackageReference Update="Rocket.Surgery.Conventions.Abstractions" Version="10.1.1" />
