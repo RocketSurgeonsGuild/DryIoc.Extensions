@@ -34,7 +34,7 @@
     <PackageReference Update="Rocket.Surgery.WebAssembly.Hosting" Version="10.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Bogus" Version="33.1.1" />
+    <PackageReference Update="Bogus" Version="34.0.1" />
     <PackageReference Update="coverlet.collector" Version="3.1.0" />
     <PackageReference Update="coverlet.msbuild" Version="3.1.0" />
     <PackageReference Update="FakeItEasy" Version="7.2.0" />
