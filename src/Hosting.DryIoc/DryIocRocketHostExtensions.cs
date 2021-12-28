@@ -1,32 +1,29 @@
-using System;
 using DryIoc;
-using JetBrains.Annotations;
 using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Conventions.DryIoc;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.Hosting
+namespace Microsoft.Extensions.Hosting;
+
+/// <summary>
+/// Class DryIocRocketHostExtensions.
+/// </summary>
+[PublicAPI]
+public static class DryIocRocketHostExtensions
 {
     /// <summary>
-    /// Class DryIocRocketHostExtensions.
+    /// Uses the DryIoc.
     /// </summary>
-    [PublicAPI]
-    public static class DryIocRocketHostExtensions
+    /// <param name="builder">The builder.</param>
+    /// <param name="container">The container.</param>
+    /// <returns>IConventionHostBuilder.</returns>
+    public static ConventionContextBuilder UseDryIoc(this ConventionContextBuilder builder, IContainer? container = null)
     {
-        /// <summary>
-        /// Uses the DryIoc.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="container">The container.</param>
-        /// <returns>IConventionHostBuilder.</returns>
-        public static ConventionContextBuilder UseDryIoc([NotNull] this ConventionContextBuilder builder, IContainer? container = null)
+        if (builder == null)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            return builder.ConfigureHosting((context, builder) => builder.UseServiceProviderFactory(new DryIocConventionServiceProviderFactory(context, container)));
+            throw new ArgumentNullException(nameof(builder));
         }
+
+        return builder.ConfigureHosting((context, builder) => builder.UseServiceProviderFactory(new DryIocConventionServiceProviderFactory(context, container)));
     }
 }
