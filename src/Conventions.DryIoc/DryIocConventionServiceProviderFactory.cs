@@ -1,6 +1,5 @@
 ﻿using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Rocket.Surgery.Conventions.DryIoc;
@@ -18,23 +17,8 @@ class DryIocConventionServiceProviderFactory : IServiceProviderFactory<IContaine
 
     public IContainer CreateBuilder(IServiceCollection services)
     {
-        var container = _container;
-
-        var configuration = _conventionContext.Get<IConfiguration>() ?? throw new ArgumentException("Configuration was not found in context");
-        foreach (var item in _conventionContext.Conventions.Get<IDryIocConvention, DryIocConvention>())
-        {
-            if (item is IDryIocConvention convention)
-            {
-                container = convention.Register(_conventionContext, configuration, services, container);
-            }
-            else if (item is DryIocConvention @delegate)
-            {
-                container = @delegate(_conventionContext, configuration, services, container);
-            }
-        }
-
+        var container = _container.ApplyConventions(_conventionContext, services);
         container.Populate(services);
-
         return container;
     }
 
