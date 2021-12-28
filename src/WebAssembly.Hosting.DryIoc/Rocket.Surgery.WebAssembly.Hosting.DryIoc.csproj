@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net5.0</TargetFrameworks>
-        <PackageDescription>Provides DryIoc support for a Rocket Surgery Application, converts the default service provider into an DryIoc based one</PackageDescription>
+        <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+        <PackageDescription
+        >Provides DryIoc support for a Rocket Surgery Application, converts the default service provider into an DryIoc based one</PackageDescription>
         <PackageTags>$(PackageTags);DryIoc</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Rocket.Surgery.WebAssembly.Hosting" />
+        <PackageReference Include="Rocket.Surgery.WebAssembly.Hosting.Abstractions" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Conventions.DryIoc\Rocket.Surgery.Conventions.DryIoc.csproj" />
