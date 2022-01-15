@@ -27,7 +27,7 @@
   <ItemGroup>
     <PackageVersion Include="DryIoc.dll" Version="4.8.6" />
     <PackageVersion Include="DryIoc.Microsoft.DependencyInjection" Version="5.1.0" />
-    <PackageVersion Include="Rocket.Surgery.Conventions" Version="11.0.1" />
+    <PackageVersion Include="Rocket.Surgery.Conventions" Version="11.0.2" />
     <PackageVersion Include="Rocket.Surgery.Conventions.Abstractions" Version="11.0.1" />
     <PackageVersion Include="Rocket.Surgery.Hosting" Version="11.0.1" />
     <PackageVersion Include="Rocket.Surgery.Hosting.Abstractions" Version="11.0.1" />
